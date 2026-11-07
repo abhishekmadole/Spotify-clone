@@ -4,6 +4,7 @@ function MusicCard(props){
             <img src={props.image} alt={props.title}></img>
             <h3>{props.title}</h3>
             <p>{props.description}</p>
+            
         </div>
         // <div className="card"
         // onClick={() => {

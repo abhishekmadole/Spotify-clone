@@ -7,7 +7,12 @@ const [isPlaying, setisPlaying] = useState(false);// tracks whether the music is
 const [audio, setAudio] = useState(null); ///stores the object that we cam control it later
 const handlePlayPause = () => {
   if(!audio){
-    const newAudio = new Audio("/songs/sample.mp3");
+
+if(!selectedSong || !selectedSong.song){
+  return;
+}
+
+    const newAudio = new Audio(selectedSong.song);
 
     newAudio.onended = () => {
       setisPlaying(false);
