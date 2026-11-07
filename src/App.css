@@ -1,0 +1,111 @@
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+}
+
+.main-layout {
+  display: flex;
+  flex: 1;
+  gap: 10px;
+  min-height: 0;
+}
+
+.sidebar {
+  width: 240px;
+  background: #121212;
+  padding: 20px; 
+  /*We use here padding since the background color doesnt go till margin so instead of margin we are using padding to center our text  */
+  /* margin: 100px; */
+  border-radius: 8px;
+}
+
+.sidebar h2 {
+  margin-bottom: 30px;
+  /* we used margin- bottom to uplift our spotify text by creatimg s[ace below by increasingb margin bottom only] */
+}
+
+.sidebar nav p {
+  margin: 20px 0;
+  color: #b3b3b3; 
+  cursor: pointer;
+} 
+
+.main-content {
+  flex: 1;
+  background: #121212;
+  border-radius: 8px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 35px;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  /* border:none;  is useful; */
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.music-cards {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.card {
+  background: #242424;
+  padding: 15px;
+  border-radius: 8px;
+  flex: 1;
+  min-width: 0;
+  transition: background 0.3s ease; 
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.card:hover {
+  background: #d46161;
+}
+
+.music-player {
+  height: 90px;
+  background: #181818;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.song-info p {
+  color: #b3b3b3;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.player-image {
+  width: 55px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+ .profile:hover {
+  background-color: rgb(181, 171, 37);
+} 
