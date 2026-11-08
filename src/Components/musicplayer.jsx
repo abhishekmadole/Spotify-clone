@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function MusicPlayer({selectedSong}) {
 
 
 const [isPlaying, setisPlaying] = useState(false);// tracks whether the music is playing or not
 const [audio, setAudio] = useState(null); ///stores the object that we cam control it later
+
+useEffect(() => {
+  if(audio){
+    audio.pause();
+    setAudio(null);
+    setisPlaying(false);
+  }
+},[selectedSong])
+
 const handlePlayPause = () => {
   if(!audio){
 
 if(!selectedSong || !selectedSong.song){
   return;
 }
-
     const newAudio = new Audio(selectedSong.song);
 
     newAudio.onended = () => {
