@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 
-function MusicPlayer({selectedSong}) {
+function MusicPlayer({selectedSong, onNext, onPrevious} ) {
 
 
 const [isPlaying, setisPlaying] = useState(false);// tracks whether the music is playing or not
 const [audio, setAudio] = useState(null); ///stores the object that we cam control it later
+const [currtime, setCurrtime] = useState(0)
+const [duration, setDuration] = useState(0);
 
 useEffect(() => {
   if(audio){
@@ -21,6 +23,14 @@ if(!selectedSong || !selectedSong.song){
   return;
 }
     const newAudio = new Audio(selectedSong.song);
+
+    newAudio.addEventListener("loadedmetadata" , () => {
+      setDuration(newAudio.duration);
+    });
+
+    newAudio.addEventListener("timeupdate" , () => {
+      setCurrtime(newAudio.currTime);
+    });
 
     newAudio.onended = () => {
       setisPlaying(false);
@@ -54,11 +64,11 @@ if(!selectedSong || !selectedSong.song){
       </div>
 
       <div className="player-controls">
-        <button>⏮</button>
+        <button onClick={onPrevious} disabled={!selectedSong}>⏮</button>
         <button onClick={handlePlayPause}>
           {isPlaying ? "⏸" : "▶"}
         </button>
-        <button>⏭</button>
+        <button onClick={onNext} disabled={!selectedSong}>⏭</button>
       </div>
 
       <div className="volume">
