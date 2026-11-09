@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import styles from "./musicplayer.module.css"
 
 function formattime(time){
   const minutes = Math.floor(time / 60);
@@ -72,10 +73,12 @@ if(!selectedSong || !selectedSong.song){
 
       <div className="player-controls">
         <div className="time-info">
-          <span>{formattime(currentTime)}</span>
-          <span>{formattime(duration)}</span>
+          <span className={styles.ct}>{formattime(currentTime)}</span>
+          <span className={styles.dt}>{formattime(duration)}</span>
         </div>
+        <div className="playercentre">
         <input 
+            className={styles.progressbar}
             type="range"
             min="0"
             max={ duration || 0}
@@ -89,13 +92,13 @@ if(!selectedSong || !selectedSong.song){
               }
             }}
             />
-        <button onClick={onPrevious} disabled={!selectedSong}>⏮</button>
+        <button className={styles.btnprev} onClick={onPrevious} disabled={!selectedSong}>⏮</button>
         <button onClick={handlePlayPause}>
           {isPlaying ? "⏸" : "▶"}
         </button>
-        <button onClick={onNext} disabled={!selectedSong}>⏭</button>
+        <button className="btnnext" onClick={onNext} disabled={!selectedSong}>⏭</button>
       </div>
-
+      </div>
       <div className="volume">
         🔊 Volume
       </div>

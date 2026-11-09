@@ -83,7 +83,7 @@ button {
   background: #d46161;
 }
 
-.music-player {
+/* .music-player {
   height: 90px;
   background: #181818;
   border-radius: 8px;
@@ -91,32 +91,37 @@ button {
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-}
+} */
 
-.song-info p {
+/* .song-info p {
   color: #b3b3b3;
   font-size: 12px;
   margin-top: 5px;
-}
+} */
 
-.player-image {
+/* .player-image {
   width: 55px;
   height: 60px;
   object-fit: cover;
   border-radius: 6px;
-}
+} */
 
  .profile:hover {
   background-color: rgb(181, 171, 37);
 } 
 
 .time-info span {
-  gap: 30px; 
-  padding: 10px 15px;
+  /* gap: 2px;  */
+  padding: 10px 200px;
+
 }
 
-.time-info {
+/* .time-info {
   background-color: #121212; 
   border-radius: 30px;
   margin-bottom: 10px;
-}
+} */
+
+.player-controls button{
+  padding: 15px;
+} 
