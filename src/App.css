@@ -109,3 +109,14 @@ button {
  .profile:hover {
   background-color: rgb(181, 171, 37);
 } 
+
+.time-info span {
+  gap: 30px; 
+  padding: 10px 15px;
+}
+
+.time-info {
+  background-color: #121212; 
+  border-radius: 30px;
+  margin-bottom: 10px;
+}

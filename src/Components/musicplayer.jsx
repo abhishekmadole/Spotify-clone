@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 
+function formattime(time){
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+
+  return `${minutes}:${seconds.toString().padStart(2,"0")}`;
+}
+
 function MusicPlayer({selectedSong, onNext, onPrevious} ) {
 
 
 const [isPlaying, setisPlaying] = useState(false);// tracks whether the music is playing or not
 const [audio, setAudio] = useState(null); ///stores the object that we cam control it later
-const [currtime, setCurrtime] = useState(0)
+const [currentTime, setCurrentTime] = useState(0)
 const [duration, setDuration] = useState(0);
 
 useEffect(() => {
@@ -29,7 +36,7 @@ if(!selectedSong || !selectedSong.song){
     });
 
     newAudio.addEventListener("timeupdate" , () => {
-      setCurrtime(newAudio.currTime);
+      setCurrentTime(newAudio.currentTime);
     });
 
     newAudio.onended = () => {
@@ -64,6 +71,24 @@ if(!selectedSong || !selectedSong.song){
       </div>
 
       <div className="player-controls">
+        <div className="time-info">
+          <span>{formattime(currentTime)}</span>
+          <span>{formattime(duration)}</span>
+        </div>
+        <input 
+            type="range"
+            min="0"
+            max={ duration || 0}
+            value={currentTime}
+            onChange={(e) => {
+              const newTime = Number(e.target.value);
+              setCurrentTime(newTime);
+
+              if(audio){
+                audio.currentTime = newTime;
+              }
+            }}
+            />
         <button onClick={onPrevious} disabled={!selectedSong}>⏮</button>
         <button onClick={handlePlayPause}>
           {isPlaying ? "⏸" : "▶"}
