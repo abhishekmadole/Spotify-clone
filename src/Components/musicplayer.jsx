@@ -16,6 +16,7 @@ const [audio, setAudio] = useState(null); ///stores the object that we cam contr
 const [currentTime, setCurrentTime] = useState(0)
 const [duration, setDuration] = useState(0);
 const [volume, setVolume] = useState(0.7);
+const [isMuted, setIsMuted] = useState(false);
 
 useEffect(() => {
   if(audio){
@@ -24,6 +25,18 @@ useEffect(() => {
     setisPlaying(false);
   }
 },[selectedSong])
+
+const handlemute = () => {
+  if (!audio) return;
+
+  if (isMuted) {
+    audio.volume = volume;
+    setIsMuted(false);
+  }else {
+    audio.volume = 0;
+    setIsMuted(true);
+  }
+};
 
 const handlePlayPause = () => {
   if(!audio){
@@ -141,7 +154,9 @@ return (
 
         {/* RIGHT: Volume */}
         <div className="volume">
-            <span>🔊</span>
+            <button onClick={handlemute}>
+              {isMuted ? "🔇" : "🔊"}
+            </button>
 
             <input
               type="range"
@@ -155,7 +170,7 @@ return (
                 setVolume(newVolume);
 
                 if(audio){
-                  audio.volume = newVolume;
+                  audio.volume = isMuted ? 0: newVolume;
                 }
               }}
               />
