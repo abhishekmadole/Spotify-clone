@@ -3,6 +3,7 @@ import Maincontent from "./Components/maincontent";
 import Musicplayer from "./Components/musicplayer";
 import {useState} from "react";
 import { Analytics } from "@vercel/analytics/next"
+// the above import analytics is used to enable web analytics for my web applicatiion
 
 import "./App.css";
 
