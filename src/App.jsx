@@ -2,7 +2,7 @@ import Sidebar from "./Components/Sidebar";
 import Maincontent from "./Components/maincontent";
 import Musicplayer from "./Components/musicplayer";
 import {useState} from "react";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 // the above import analytics is used to enable web analytics for my web applicatiion
 
 import "./App.css";
@@ -88,6 +88,7 @@ function App(){
   }
 
   return (
+    <>
     <div className="app">
     
       <div className="main-layout">
@@ -98,6 +99,8 @@ function App(){
       <Musicplayer selectedSong={selectedSong} onNext={handlenext} onPrevious={handleprev} />
 
     </div>
+    <Analytics/>
+    </>
   );
 }
 
