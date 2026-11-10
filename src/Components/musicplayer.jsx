@@ -57,53 +57,94 @@ if(!selectedSong || !selectedSong.song){
     setisPlaying(true);
   }
 };
-  return (
+
+return (
     <div className="music-player">
-      <div className="song-info">
-        {selectedSong && (
-        <img
-            className="player-image"
-            src={selectedSong.image}
-            alt={selectedSong.title}
-          />
-          )}
-        <h4>{selectedSong? selectedSong.title : "no song selected"} </h4>
-        <p>{selectedSong? selectedSong.description : "Select a playlist to start" }</p>
-      </div>
 
-      <div className="player-controls">
-        <div className="time-info">
-          <span className={styles.ct}>{formattime(currentTime)}</span>
-          <span className={styles.dt}>{formattime(duration)}</span>
+        {/* LEFT: Song Information */}
+        <div className="song-info">
+            {selectedSong && (
+                <img
+                    className="player-image"
+                    src={selectedSong.image}
+                    alt={selectedSong.title}
+                />
+            )}
+
+            <div>
+                <h4>
+                    {selectedSong ? selectedSong.title : "No song selected"}
+                </h4>
+
+                <p>
+                    {selectedSong
+                        ? selectedSong.description
+                        : "Select a playlist to start"}
+                </p>
+            </div>
         </div>
-        <div className="playercentre">
-        <input 
-            className={styles.progressbar}
-            type="range"
-            min="0"
-            max={ duration || 0}
-            value={currentTime}
-            onChange={(e) => {
-              const newTime = Number(e.target.value);
-              setCurrentTime(newTime);
 
-              if(audio){
-                audio.currentTime = newTime;
-              }
-            }}
+        {/* CENTRE: Music Controls */}
+        <div className="player-center">
+
+            {/* Previous, Play/Pause, Next */}
+            <div className="player-controls">
+
+                <button
+                    className={styles.btnprev}
+                    onClick={onPrevious}
+                    disabled={!selectedSong}
+                >
+                    ⏮
+                </button>
+
+                <button onClick={handlePlayPause}>
+                    {isPlaying ? "⏸" : "▶"}
+                </button>
+
+                <button
+                    className={styles.btnnext}
+                    onClick={onNext}
+                    disabled={!selectedSong}
+                >
+                    ⏭
+                </button>
+
+            </div>
+
+            {/* Current Time and Duration */}
+            <div className="time-info">
+                <span>{formattime(currentTime)}</span>
+                <span>{formattime(duration)}</span>
+            </div>
+
+            {/* Progress Bar */}
+            <input
+                className={styles.progressbar}
+                type="range"
+                min="0"
+                max={duration || 0}
+                value={currentTime}
+                disabled={!audio || !duration}
+                onChange={(e) => {
+                    const newTime = Number(e.target.value);
+                    setCurrentTime(newTime);
+
+                    if (audio) {
+                        audio.currentTime = newTime;
+                    }
+                }}
             />
-        <button className={styles.btnprev} onClick={onPrevious} disabled={!selectedSong}>⏮</button>
-        <button onClick={handlePlayPause}>
-          {isPlaying ? "⏸" : "▶"}
-        </button>
-        <button className="btnnext" onClick={onNext} disabled={!selectedSong}>⏭</button>
-      </div>
-      </div>
-      <div className="volume">
-        🔊 Volume
-      </div>
+
+        </div>
+
+        {/* RIGHT: Volume */}
+        <div className="volume">
+            🔊 Volume
+        </div>
+
     </div>
-  );
+);
 }
 
 export default MusicPlayer;
