@@ -167,3 +167,51 @@ button {
     padding: 12px;
     border-radius: 50%;
 }
+
+@media (max-width: 768px){
+  .app {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: auto;
+  }
+
+  .sidebar nav {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .music-cards {
+    flex-wrap: wrap;
+  }
+
+  .card {
+    flex: 1 1 180px;
+  }
+
+  .music-player {
+    height: auto;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .song-info {
+    justify-content: center;
+  }
+
+  .player-center {
+    width: 100%;
+  }
+
+  .volume {
+    justify-content: center;
+  }
+}
