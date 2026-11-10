@@ -2,6 +2,7 @@ import Sidebar from "./Components/Sidebar";
 import Maincontent from "./Components/maincontent";
 import Musicplayer from "./Components/musicplayer";
 import {useState} from "react";
+import { Analytics } from "@vercel/analytics/next"
 
 import "./App.css";
 
