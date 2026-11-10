@@ -146,6 +146,13 @@ button {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 10px;
+}
+
+.volume input[type="range"] {
+  width: 100px;
+  cursor: pointer;
+  accent-color: #1db954;
 }
 
 .player-controls {

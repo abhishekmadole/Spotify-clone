@@ -15,6 +15,7 @@ const [isPlaying, setisPlaying] = useState(false);// tracks whether the music is
 const [audio, setAudio] = useState(null); ///stores the object that we cam control it later
 const [currentTime, setCurrentTime] = useState(0)
 const [duration, setDuration] = useState(0);
+const [volume, setVolume] = useState(0.7);
 
 useEffect(() => {
   if(audio){
@@ -31,6 +32,7 @@ if(!selectedSong || !selectedSong.song){
   return;
 }
     const newAudio = new Audio(selectedSong.song);
+    newAudio.volume = volume;
 
     newAudio.addEventListener("loadedmetadata" , () => {
       setDuration(newAudio.duration);
@@ -57,7 +59,6 @@ if(!selectedSong || !selectedSong.song){
     setisPlaying(true);
   }
 };
-
 return (
     <div className="music-player">
 
@@ -140,7 +141,24 @@ return (
 
         {/* RIGHT: Volume */}
         <div className="volume">
-            🔊 Volume
+            <span>🔊</span>
+
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={volume}
+              onChange = {(e) => {
+                const newVolume = Number(e.target.value);
+
+                setVolume(newVolume);
+
+                if(audio){
+                  audio.volume = newVolume;
+                }
+              }}
+              />
         </div>
 
     </div>
@@ -148,3 +166,51 @@ return (
 }
 
 export default MusicPlayer;
+
+  // return (
+  //   <div className="music-player">
+  //     <div className="song-info">
+  //       {selectedSong && (
+  //       <img
+  //           className="player-image"
+  //           src={selectedSong.image}
+  //           alt={selectedSong.title}
+  //         />
+  //         )}
+  //       <h4>{selectedSong? selectedSong.title : "no song selected"} </h4>
+  //       <p>{selectedSong? selectedSong.description : "Select a playlist to start" }</p>
+  //     </div>
+  //     <div className="player-center">
+  //     <div className="player-controls">
+  //       <div className="time-info">
+  //         <span className={styles.ct}>{formattime(currentTime)}</span>
+  //         <span className={styles.dt}>{formattime(duration)}</span>
+  //       </div>
+      
+  //       <input 
+  //           className={styles.progressbar}
+  //           type="range"
+  //           min="0"
+  //           max={ duration || 0}
+  //           value={currentTime}
+  //           onChange={(e) => {
+  //             const newTime = Number(e.target.value);
+  //             setCurrentTime(newTime);
+
+  //             if(audio){
+  //               audio.currentTime = newTime;
+  //             }
+  //           }}
+  //           />
+  //       <button className={styles.btnprev} onClick={onPrevious} disabled={!selectedSong}>⏮</button>
+  //       <button onClick={handlePlayPause}>
+  //         {isPlaying ? "⏸" : "▶"}
+  //       </button>
+  //       <button className="btnnext" onClick={onNext} disabled={!selectedSong}>⏭</button>
+  //     </div>
+  //     </div>
+  //     <div className="volume">
+  //       🔊 Volume
+  //     </div>
+  //   </div>
+  // );
