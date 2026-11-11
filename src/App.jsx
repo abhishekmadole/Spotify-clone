@@ -140,6 +140,7 @@ function App(){
           onHomeClick={() => setActivePage("home")}
           onSearchClick={() => setActivePage("search")}
           onLibraryClick={() => setActivePage("library")}
+          savedCount={savedPlaylists.length}
         />
         <Maincontent
           selectedSong={selectedSong} 

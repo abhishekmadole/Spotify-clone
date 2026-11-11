@@ -1,5 +1,5 @@
 
-function Sidebar({onHomeClick, onSearchClick, onLibraryClick, activePage}) {
+function Sidebar({onHomeClick, onSearchClick, onLibraryClick, activePage, savedCount}) {
   return (
     <div className="sidebar">
       <h2>Spotify</h2>
@@ -18,7 +18,7 @@ function Sidebar({onHomeClick, onSearchClick, onLibraryClick, activePage}) {
         <p 
         className={activePage === "library"? "active" : ""}
         onClick={onLibraryClick}> 
-        <b>Library</b>
+        <b>Library {savedCount}</b>
         </p>
       </nav>
     </div>
