@@ -85,11 +85,12 @@ import { useState, useRef, useEffect } from "react";
     //         song: "/songs/Kar Har Maidaan Fateh Sanju 128 Kbps.mp3"
     //     }
     // ];
-function MainContent({ selectedSong, setSelectedSong , playlists, activePage}){
+function MainContent({ selectedSong, setSelectedSong , playlists, activePage, savedPlaylists, toggleSavePlaylist}){
     const [searchQuery, setSearchQuery] = useState("")
     const filteredPlaylists = playlists.filter((playlist) =>
             playlist.title.toLowerCase().includes(searchQuery.toLowerCase())
         );
+    const displayedPlaylists = activePage === "library" ? savedPlaylists : filteredPlaylists;
     const searchInputRef = useRef(null);
 
     useEffect(() => {
@@ -141,7 +142,7 @@ return(
                     </p>
             )   }
         </div> */}
-        <div className="music-cards">
+        {/* <div className="music-cards">
             {(activePage === "library" ? playlists : filteredPlaylists).length > 0 ? (
                 (activePage === "library" ? playlists : filteredPlaylists).map((playlist) => (
                     <MusicCard
@@ -157,6 +158,32 @@ return(
             <p className="no-results">
                 No playlists found for "{searchQuery}"
             </p>
+            )}
+        </div> */}
+        <div className="music-cards">
+            {displayedPlaylists.length > 0 ? (
+                displayedPlaylists.map((playlist) => (
+                    <MusicCard
+                        key={playlist.id}
+                        title={playlist.title}
+                        description={playlist.description}
+                        image={playlist.image}
+                        onClick={() => setSelectedSong(playlist)}
+                        isSelected={selectedSong?.id === playlist.id}
+
+                        isSaved={savedPlaylists.some(
+                            saved => saved.id === playlist.id
+                        )}
+
+                        onSaveToggle ={() => toggleSavePlaylist(playlist)}
+                        />
+                    ))
+            ):(
+                <p className="no-results">
+                    {activePage === "library"
+                        ? "Your library is empty. save some playlists!"
+                        : `No playlists found for "${searchQuery}"`}
+                </p>
             )}
         </div>
     </div>

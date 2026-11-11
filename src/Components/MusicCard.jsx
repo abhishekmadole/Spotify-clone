@@ -5,6 +5,14 @@ function MusicCard(props){
             <h3>{props.title}</h3>
             <p>{props.description}</p>
             
+            <button 
+                onClick={(e) => {
+                    e.stopPropagation();
+                    props.onSaveToggle();
+                }}
+            >
+                {props.isSaved ? "remove" : "save"}
+            </button>
         </div>
         // <div className="card"
         // onClick={() => {

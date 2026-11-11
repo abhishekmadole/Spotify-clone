@@ -1,7 +1,7 @@
 import Sidebar from "./Components/Sidebar";
 import Maincontent from "./Components/maincontent";
 import Musicplayer from "./Components/musicplayer";
-import {useState} from "react";
+import {useState, useEffect, use} from "react";
 import { Analytics } from "@vercel/analytics/react"
 // the above import analytics is used to enable web analytics for my web applicatiion
 
@@ -58,7 +58,49 @@ const playlists = [
 function App(){
   const [selectedSong, setSelectedSong] = useState(null);
   const [activePage, setActivePage] = useState("🏠 Home");
+  
 
+// const [savedPlaylists, setSavedPlaylists] = useState(() => {
+//     try {
+//         const storedPlaylists = localStorage.getItem("savedPlaylists");
+
+//         return storedPlaylists ? JSON.parse(storedPlaylists) : [];
+//     } catch (error) {
+//         console.error("Error loading saved playlists:", error);
+//         return [];
+//     }
+// });
+
+  const [savedPlaylists, setSavedPlaylists] = useState(() => {
+  const storedPlaylists = localStorage.getItem("savedPlaylists");
+
+    return storedPlaylists
+      ? JSON.parse(storedPlaylists)
+      : [];
+  });
+
+    useEffect(() => {
+    localStorage.setItem(
+      "savedPlaylists",
+      JSON.stringify(savedPlaylists)
+    );
+  },[savedPlaylists]);
+
+  const toggleSavePlaylist = (playlist) => {
+    const isAlreadySaved = savedPlaylists.some(
+      saved => saved.id==playlist.id  
+    )
+
+
+  if(isAlreadySaved){
+    setSavedPlaylists(
+      savedPlaylists.filter(saved => saved.id !== playlist.id)
+    );
+  }
+  else{
+    setSavedPlaylists([...savedPlaylists,playlist]);
+  }
+}
   const handlenext = () => {
     if(!selectedSong){
       return 
@@ -99,10 +141,21 @@ function App(){
           onSearchClick={() => setActivePage("search")}
           onLibraryClick={() => setActivePage("library")}
         />
-        <Maincontent selectedSong={selectedSong} setSelectedSong={setSelectedSong} playlists={playlists} activePage={activePage} />
+        <Maincontent
+          selectedSong={selectedSong} 
+          setSelectedSong={setSelectedSong} 
+          playlists={playlists} 
+          activePage={activePage}
+          savedPlaylists={savedPlaylists}
+          toggleSavePlaylist={toggleSavePlaylist} 
+       />
       </div>
 
-      <Musicplayer selectedSong={selectedSong} onNext={handlenext} onPrevious={handleprev} />
+      <Musicplayer 
+      selectedSong={selectedSong} 
+      onNext={handlenext} 
+      onPrevious={handleprev} 
+      />
 
     </div>
     <Analytics/>
