@@ -1,6 +1,7 @@
 import Navbar from "./navbar";
 import MusicCard from "./MusicCard";
 import MusicPlayer from "./musicplayer";
+import { useState } from "react";
 
 // function MainContent() {
 //   return (
@@ -37,7 +38,7 @@ import MusicPlayer from "./musicplayer";
 //   );
 // }
 
-function MainContent({ setSelectedSong , playlists}){
+function MainContent({ selectedSong, setSelectedSong , playlists}){
     // const playlists = [
     //     {
     //         id :1,
@@ -85,24 +86,43 @@ function MainContent({ setSelectedSong , playlists}){
     //     }
     // ];
 
+    const [searchQuery, setSearchQuery] = useState("")
+    const filteredPlaylists = playlists.filter((playlist) =>
+            playlist.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        
 return(
     <div className="main-content">
         <Navbar/>
 
+        <div className="search-container">
+            <input 
+                type="text"
+                placeholder="search playlists...."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+            />
+        </div>
+
         <h1> Welcome back, Cuties!!</h1>
 
         <div className="music-cards">
-            {playlists.map((playlist) => (
-
-                <MusicCard 
-
-                    key={playlist.id}
-                    title={playlist.title}
-                    description={playlist.description} 
-                    image={playlist.image}
-                    onClick={() => setSelectedSong(playlist)}
+            {filteredPlaylists.length > 0 ? (
+                filteredPlaylists.map((playlist) => (
+                    <MusicCard
+                        key={playlist.id}
+                        title={playlist.title}
+                        description={playlist.description}
+                        image={playlist.image}
+                        onClick={() => setSelectedSong(playlist)}
+                        isSelected={selectedSong?.id === playlist.id}
                     />
-            ))}
+                ))
+            ) : (
+                    <p className="no-results">
+                            No playlists found for "{searchQuery}"
+                    </p>
+            )   }
         </div>
     </div>
   );

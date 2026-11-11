@@ -1,6 +1,6 @@
 function MusicCard(props){
     return (
-        <div className="card" onClick={props.onClick}>
+        <div className={`card ${props.isSelected ? "selected" : ""}`} onClick={props.onClick}>
             <img src={props.image} alt={props.title}></img>
             <h3>{props.title}</h3>
             <p>{props.description}</p>

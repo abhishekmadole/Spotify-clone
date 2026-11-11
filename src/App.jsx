@@ -93,7 +93,7 @@ function App(){
     
       <div className="main-layout">
         <Sidebar/>
-        <Maincontent setSelectedSong={setSelectedSong} playlists={playlists} />
+        <Maincontent selectedSong={selectedSong} setSelectedSong={setSelectedSong} playlists={playlists} />
       </div>
 
       <Musicplayer selectedSong={selectedSong} onNext={handlenext} onPrevious={handleprev} />
