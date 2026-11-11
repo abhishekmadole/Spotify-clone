@@ -1,7 +1,7 @@
 import Navbar from "./navbar";
 import MusicCard from "./MusicCard";
 import MusicPlayer from "./musicplayer";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // function MainContent() {
 //   return (
@@ -38,7 +38,7 @@ import { useState } from "react";
 //   );
 // }
 
-function MainContent({ selectedSong, setSelectedSong , playlists}){
+// function MainContent({ selectedSong, setSelectedSong , playlists}){
     // const playlists = [
     //     {
     //         id :1,
@@ -85,28 +85,45 @@ function MainContent({ selectedSong, setSelectedSong , playlists}){
     //         song: "/songs/Kar Har Maidaan Fateh Sanju 128 Kbps.mp3"
     //     }
     // ];
-
+function MainContent({ selectedSong, setSelectedSong , playlists, activePage}){
     const [searchQuery, setSearchQuery] = useState("")
     const filteredPlaylists = playlists.filter((playlist) =>
             playlist.title.toLowerCase().includes(searchQuery.toLowerCase())
         );
-        
+    const searchInputRef = useRef(null);
+
+    useEffect(() => {
+        if (activePage === "search") {
+            searchInputRef.current?.focus();
+        }
+
+        if (activePage === "home") {
+            setSearchQuery("");
+        }
+    }, [activePage]); 
+    console.log("ok ", activePage);
 return(
     <div className="main-content">
         <Navbar/>
-
+    {activePage !== "library" &&  (
         <div className="search-container">
             <input 
+                ref={searchInputRef}
                 type="text"
                 placeholder="search playlists...."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
             />
         </div>
-
-        <h1> Welcome back, Cuties!!</h1>
-
-        <div className="music-cards">
+    )}
+        {/* <h1> Welcome back, Cuties!!</h1> */}
+        <h1>
+                {activePage === "home" && "Welcome back, Cuties!!"}
+                {activePage === "search" && "Search Playlists"}
+                {activePage === "library" && "Your Library"}
+        </h1>
+        {/* <div className="music-cards">
+           
             {filteredPlaylists.length > 0 ? (
                 filteredPlaylists.map((playlist) => (
                     <MusicCard
@@ -123,6 +140,24 @@ return(
                             No playlists found for "{searchQuery}"
                     </p>
             )   }
+        </div> */}
+        <div className="music-cards">
+            {(activePage === "library" ? playlists : filteredPlaylists).length > 0 ? (
+                (activePage === "library" ? playlists : filteredPlaylists).map((playlist) => (
+                    <MusicCard
+                        key={playlist.id}
+                        title={playlist.title}
+                        description={playlist.description}
+                        image={playlist.image}
+                        onClick={() => setSelectedSong(playlist)}
+                        isSelected={selectedSong?.id === playlist.id}
+                    />
+                )   )
+                ) : (
+            <p className="no-results">
+                No playlists found for "{searchQuery}"
+            </p>
+            )}
         </div>
     </div>
   );

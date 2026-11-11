@@ -57,6 +57,7 @@ const playlists = [
 
 function App(){
   const [selectedSong, setSelectedSong] = useState(null);
+  const [activePage, setActivePage] = useState("🏠 Home");
 
   const handlenext = () => {
     if(!selectedSong){
@@ -92,8 +93,12 @@ function App(){
     <div className="app">
     
       <div className="main-layout">
-        <Sidebar/>
-        <Maincontent selectedSong={selectedSong} setSelectedSong={setSelectedSong} playlists={playlists} />
+        <Sidebar
+          onHomeClick={() => setActivePage("home")}
+          onSearchClick={() => setActivePage("search")}
+          onLibraryClick={() => setActivePage("library")}
+        />
+        <Maincontent selectedSong={selectedSong} setSelectedSong={setSelectedSong} playlists={playlists} activePage={activePage} />
       </div>
 
       <Musicplayer selectedSong={selectedSong} onNext={handlenext} onPrevious={handleprev} />

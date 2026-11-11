@@ -1,13 +1,13 @@
 
-function Sidebar() {
+function Sidebar({onHomeClick, onSearchClick, onLibraryClick}) {
   return (
     <div className="sidebar">
       <h2>Spotify</h2>
 
       <nav>
-        <p>🏠 Home</p>
-        <p>🔍 Search</p>
-        <p>📚 Your Library</p>
+        <p onClick={onHomeClick}> <b>Home</b></p>
+        <p onClick={onSearchClick}> <b>Search</b></p>
+        <p onClick={onLibraryClick}> <b>Library</b></p>
       </nav>
     </div>
   );
