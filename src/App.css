@@ -241,3 +241,18 @@ button {
   border: 2px solid #1db954;
   background-color: #242424;
 }
+
+.sidebar nav p {
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar nav p:hover {
+  background-color: #242424;
+}
+
+.sidebar nav p:active {
+  /* background-color: #242424; */
+  color: #1db954;
+  font-weight: bold;
+}

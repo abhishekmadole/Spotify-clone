@@ -94,6 +94,7 @@ function App(){
     
       <div className="main-layout">
         <Sidebar
+          activePage={activePage}
           onHomeClick={() => setActivePage("home")}
           onSearchClick={() => setActivePage("search")}
           onLibraryClick={() => setActivePage("library")}
