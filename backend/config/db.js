@@ -13,3 +13,11 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+
+// const express = require("express");
+
+// const app = express();
+
+// app.listen("/", (req,res) => {
+//     res.res
+// })
