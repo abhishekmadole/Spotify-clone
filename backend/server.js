@@ -168,6 +168,37 @@ app.delete("/api/playlists/:id", async (req, res) => {
     }
 });
 
+//api for seraching
+app.get("/api/playlists/query/search", async (req, res) => {
+    try {
+        const search = req.query.search;
+
+        if(!search || !search.trim()){
+            res.status(400).json({
+                success: false,
+                message: "Please provide valid search!!"
+            })
+        }
+
+        const playlist = await playlistmodel.find({
+            title: {
+                $regex: search,
+                $options: "i"
+            }
+    })
+
+        res.status(200).json({
+            success: true,
+            count: playlist.length,
+            data: playlist
+        })
+    } catch (error) {
+        res.status(400).json({
+            success : false,
+            message : error.message
+        })
+    }
+});
 
 // Start server after connecting to MongoDB
 connectDB().then(() => {
