@@ -1,11 +1,12 @@
 const express = require("express")
+const validaterequest = require("../middleware/inputvalidate.middleware")
 
 const router = express.Router();
 
 const { createPlaylist, getallplaylist, getplaylistbyid, upadteplaylistbyid, deleteplaylistbyid, searchplaylist, sortoptions, sortrecently, pagination } = require("../controllers/playlistmodel.controller")
 
 //satatic routes
-router.post("/", createPlaylist)
+router.post("/", validaterequest, createPlaylist)
 router.get("/", getallplaylist)
 router.get("/query/search", searchplaylist)
 router.get("/recently/sort", sortrecently)

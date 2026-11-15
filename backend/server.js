@@ -3,14 +3,18 @@ const connectDB = require("./src/db/db");
 const express = require("express");
 const playlistmodel = require("./src/model/note.model");
 const playlistRoutes = require("./src/routes/playlistmodel.routes")
+const requestlogger = require("./src/middleware/logger.midddle")
+// const validaterequest = require("./src/middleware/inputvalidate.middleware") //ucan use inputvalidate middleware here also and also in routes
 
 const app = express();
 
+//sequence of app.use matters 
 app.use(express.json());
+app.use(requestlogger);
+// app.use(validaterequest);
 app.use("/api/playlists", playlistRoutes);
 
 const PORT = process.env.PORT || 5000;
-
 // app.post("/api/playlists", async (req, res) => {
 //     const data1 = req.body
 //     const data2 = req.body
