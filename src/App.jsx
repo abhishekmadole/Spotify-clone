@@ -1,63 +1,97 @@
 import Sidebar from "./Components/Sidebar";
 import Maincontent from "./Components/maincontent";
 import Musicplayer from "./Components/musicplayer";
-import {useState, useEffect, use} from "react";
+import {useState, useEffect} from "react";
 import { Analytics } from "@vercel/analytics/react"
 // the above import analytics is used to enable web analytics for my web applicatiion
 
 import "./App.css";
 
 //Moved playlists array from maincontent to app.jsx so all components can access currrent playlist, prev playlist, next playlist
-const playlists = [
-        {
-            id :1,
-            title: "Abhi's Mix",
-            description: "My favourite music",
-            image: "/images/abhi.jpg",
-            song: "/songs/Jhumritalaiyya Jagga Jasoos 128 Kbps.mp3"
+// const playlists = [
+//         {
+//             id :1,
+//             title: "Abhi's Mix",
+//             description: "My favourite music",
+//             image: "/images/abhi.jpg",
+//             song: "/songs/Jhumritalaiyya Jagga Jasoos 128 Kbps.mp3"
 
-        },
-        {
-            id: 2,
-            title: "Chill Hits",
-            description: "Relax and listen",
-            image: "/images/chill.jpg",
-            song: "/songs/Ullu Ka Pattha Jagga Jasoos 128 Kbps.mp3"
-        },
-        {
-            id: 3,
-            title: "top picks",
-            description: "Popular Songs",
-            image: "/images/coding.jpg",
-            song: "/songs/Kyon Barfi 128 Kbps.mp3"
+//         },
+//         {
+//             id: 2,
+//             title: "Chill Hits",
+//             description: "Relax and listen",
+//             image: "/images/chill.jpg",
+//             song: "/songs/Ullu Ka Pattha Jagga Jasoos 128 Kbps.mp3"
+//         },
+//         {
+//             id: 3,
+//             title: "top picks",
+//             description: "Popular Songs",
+//             image: "/images/coding.jpg",
+//             song: "/songs/Kyon Barfi 128 Kbps.mp3"
 
-        },
-        {
-            id : 4,
-            title: "My Playist",
-            description: "Created By me",
-            image: "/images/hits.jpg",
-            song: "/songs/Galti Se Mistake Jagga Jasoos 128 Kbps.mp3"
-        },
-        {
-            id: 5,
-            title: "Coding Beats",
-            description: "Music While coding",
-            image: "/images/top.jpg",
-            song: "/songs/sample.mp3"
-        },
-        {
-            id: 6,
-            title: "Workout mix",
-            description: "Energy and Motivation",
-            image: "/images/workout.jpg",
-            song: "/songs/Kar Har Maidaan Fateh Sanju 128 Kbps.mp3"
-        }
-    ];
+//         },
+//         {
+//             id : 4,
+//             title: "My Playist",
+//             description: "Created By me",
+//             image: "/images/hits.jpg",
+//             song: "/songs/Galti Se Mistake Jagga Jasoos 128 Kbps.mp3"
+//         },
+//         {
+//             id: 5,
+//             title: "Coding Beats",
+//             description: "Music While coding",
+//             image: "/images/top.jpg",
+//             song: "/songs/sample.mp3"
+//         },
+//         {
+//             id: 6,
+//             title: "Workout mix",
+//             description: "Energy and Motivation",
+//             image: "/images/workout.jpg",
+//             song: "/songs/Kar Har Maidaan Fateh Sanju 128 Kbps.mp3"
+//         }
+//     ];
+//
 
 function App(){
   const [selectedSong, setSelectedSong] = useState(null);
   const [activePage, setActivePage] = useState("🏠 Home");
+  const [playlists ,setPlaylists] = useState([]);
+  
+
+  useEffect(()=> {
+
+    const fectchplalists = async () => {
+      try {
+           const response = await fetch(
+            "http://localhost:5000/api/playlists"
+           );
+
+
+           if(!response.ok) {
+            throw new Error("Failed to fetch playlists");
+           }
+
+           const result = await response.json();
+
+          // console.log("Complete API response:", result);
+          // console.log("Response type:", typeof result);
+           setPlaylists(result.playlists);
+
+           console.log("playlists fetched: ", result.playlists);
+
+          }
+          catch (error) {
+            console.error("Error fetching playlists: ", error.message);
+          }
+      };
+
+      fectchplalists();
+
+    },[]);
   
 
 // const [savedPlaylists, setSavedPlaylists] = useState(() => {

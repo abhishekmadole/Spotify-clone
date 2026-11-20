@@ -85,7 +85,7 @@ import { useState, useRef, useEffect } from "react";
     //         song: "/songs/Kar Har Maidaan Fateh Sanju 128 Kbps.mp3"
     //     }
     // ];
-function MainContent({ selectedSong, setSelectedSong , playlists, activePage, savedPlaylists, toggleSavePlaylist}){
+function MainContent({ selectedSong, setSelectedSong ,playlists = [], activePage, savedPlaylists, toggleSavePlaylist}){
     const [searchQuery, setSearchQuery] = useState("")
     const filteredPlaylists = playlists.filter((playlist) =>
             playlist.title.toLowerCase().includes(searchQuery.toLowerCase())
