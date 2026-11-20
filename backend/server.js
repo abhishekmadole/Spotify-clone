@@ -13,7 +13,7 @@ const app = express();
 //sequence of app.use matters 
 app.use(express.json());
 app.use(cors({                //This allows your local React frontend to access your backend.
-    origin: "localhost:1573"
+    origin: "http://localhost:5173"
 }))
 app.use(requestlogger);
 // app.use(validaterequest);
