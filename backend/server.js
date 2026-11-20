@@ -6,11 +6,15 @@ const playlistRoutes = require("./src/routes/playlistmodel.routes")
 const requestlogger = require("./src/middleware/logger.midddle")
 // const validaterequest = require("./src/middleware/inputvalidate.middleware") //ucan use inputvalidate middleware here also and also in routes
 const errorhandling = require("./src/middleware/errorhandling.middleware")
+const cors = require("cors")
 
 const app = express();
 
 //sequence of app.use matters 
 app.use(express.json());
+app.use(cors({                //This allows your local React frontend to access your backend.
+    origin: "localhost:1573"
+}))
 app.use(requestlogger);
 // app.use(validaterequest);
 app.use("/api/playlists", playlistRoutes);
