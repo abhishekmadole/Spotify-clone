@@ -87,21 +87,59 @@ import { useState, useRef, useEffect } from "react";
     // ];
 function MainContent({ selectedSong, setSelectedSong ,playlists = [], activePage, savedPlaylists, toggleSavePlaylist}){
     const [searchQuery, setSearchQuery] = useState("")
-    const filteredPlaylists = playlists.filter((playlist) =>
-            playlist.title.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-    const displayedPlaylists = activePage === "library" ? savedPlaylists : filteredPlaylists;
+    const [searchResults, setSearchResults] = useState([]) //Create a state to search from directly Mongodb database through Express search API. 
+    
+    const searchPlaylists = async () => {
+
+        try {
+            const response = await fetch(
+                `http://localhost:5000/api/playlists/query/search?search=${encodeURIComponent(searchQuery)}`
+            );
+
+            if(!response.ok){
+                throw new Error("Failed to search playlists");
+            }
+
+            const result = await response.json();
+            // console.log(typeof(result))
+            // console.log(Object.keys(result).length)
+            // console.log("Search API response:", result);
+            setSearchResults(result.data);
+            
+// const result = await response.text();
+            
+// console.log("Search API response:", result);
+
+        }catch (error) {
+            console.error("search error:", error.message)
+        }
+    };
+
+    //Used the below two functions to display the library and saved playlist when the playlist were saved locally 
+    // const filteredPlaylists = playlists.filter((playlist) =>
+    //         playlist.title.toLowerCase().includes(searchQuery.toLowerCase())
+    //     );
+    // const displayedPlaylists = activePage === "library" ? savedPlaylists : filteredPlaylists;
+
+    //Using the below function to Display the playlist in the library and saved playlist by connecting MongoDB to the frontend through the Express API. 
+    const displayPlaylists =
+        activePage == "library"?
+        savedPlaylists 
+        : activePage == "search"?
+        searchResults
+        :playlists 
+
     const searchInputRef = useRef(null);
 
     useEffect(() => {
-        if (activePage === "search") {
-            searchInputRef.current?.focus();
+        if (activePage === "search"  && searchQuery.trim() != "") {
+            // searchInputRef.current?.focus();
+            
+            searchPlaylists()
+        }else if (activePage === "search"){
+            setSearchResults([])
         }
-
-        if (activePage === "home") {
-            setSearchQuery("");
-        }
-    }, [activePage]); 
+    }, [activePage, searchQuery]); 
     console.log("ok ", activePage);
 return(
     <div className="main-content">
@@ -161,18 +199,18 @@ return(
             )}
         </div> */}
         <div className="music-cards">
-            {displayedPlaylists.length > 0 ? (
-                displayedPlaylists.map((playlist) => (
+            {displayPlaylists.length > 0 ? (
+                displayPlaylists.map((playlist) => (
                     <MusicCard
-                        key={playlist.id}
+                        key={playlist._id}
                         title={playlist.title}
                         description={playlist.description}
                         image={playlist.image}
                         onClick={() => setSelectedSong(playlist)}
-                        isSelected={selectedSong?.id === playlist.id}
+                        isSelected={selectedSong?._id === playlist._id}
 
                         isSaved={savedPlaylists.some(
-                            saved => saved.id === playlist.id
+                            saved => saved._id === playlist._id
                         )}
 
                         onSaveToggle ={() => toggleSavePlaylist(playlist)}

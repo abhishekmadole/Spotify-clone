@@ -64,7 +64,7 @@ function App(){
 
   useEffect(()=> {
 
-    const fectchplalists = async () => {
+    const fectchplaylists = async () => {
       try {
            const response = await fetch(
             "http://localhost:5000/api/playlists"
@@ -72,6 +72,8 @@ function App(){
 
 
            if(!response.ok) {
+            const errorData = await response.json(); //used for debugging 
+            console.log("Backend error:", errorData)
             throw new Error("Failed to fetch playlists");
            }
 
@@ -82,14 +84,13 @@ function App(){
            setPlaylists(result.playlists);
 
            console.log("playlists fetched: ", result.playlists);
-
           }
           catch (error) {
             console.error("Error fetching playlists: ", error.message);
           }
       };
 
-      fectchplalists();
+      fectchplaylists();
 
     },[]);
   
@@ -122,13 +123,13 @@ function App(){
 
   const toggleSavePlaylist = (playlist) => {
     const isAlreadySaved = savedPlaylists.some(
-      saved => saved.id==playlist.id  
+      saved => saved._id === playlist._id  
     )
 
 
   if(isAlreadySaved){
     setSavedPlaylists(
-      savedPlaylists.filter(saved => saved.id !== playlist.id)
+      savedPlaylists.filter(saved => saved._id !== playlist._id)
     );
   }
   else{
@@ -141,7 +142,7 @@ function App(){
     }
 
     const currindex = playlists.findIndex(
-      playlist => playlist.id == selectedSong.id
+      playlist => playlist._id === selectedSong._id
     );
 
     const nxtindex = (currindex + 1)% playlists.length;
@@ -155,7 +156,7 @@ function App(){
     }
 
     const currindex = playlists.findIndex(
-     playlist => playlist.id == selectedSong.id
+     playlist => playlist._id === selectedSong._id
     );
 
     const previndex = (currindex - 1 + playlists.length) % playlists.length;
