@@ -89,12 +89,15 @@ function MainContent({ selectedSong, setSelectedSong ,playlists = [], activePage
     const [searchQuery, setSearchQuery] = useState("")
     const [searchResults, setSearchResults] = useState([]) //Create a state to search from directly Mongodb database through Express search API. 
     const [sortOptions, setSortOptions] = useState("recent")
+    const [sortedPlaylists, setSortedPlaylists] = useState([])
 
-    const sortedPlaylists = async () => {
+    useEffect(() => {
+
+        const sortedPlaylist = async () => {
         
         try {
             const response = await fetch(
-                `http://localhost:5000/api/playlists/sort/order?order=${encodeURIComponent(sortOptions)}`
+                `http://localhost:5000/api/playlists/options/order?order=${encodeURIComponent(sortOptions)}`
             )
 
             if(!response.ok){
@@ -102,11 +105,13 @@ function MainContent({ selectedSong, setSelectedSong ,playlists = [], activePage
             }
 
             const result = await response.json();
-            setSortOptions(result.data)
+            setSortedPlaylists(result.data)
         } catch(error){
             console.error("sorting error:",error.message)
         }
     };
+    sortedPlaylist();
+    },[sortOptions])
 
     const searchPlaylists = async () => {
 
@@ -142,11 +147,13 @@ function MainContent({ selectedSong, setSelectedSong ,playlists = [], activePage
 
     //Using the below function to Display the playlist in the library and saved playlist by connecting MongoDB to the frontend through the Express API. 
     const displayPlaylists =
-        activePage == "library"?
-        savedPlaylists 
-        : activePage == "search"?
-        searchResults
-        :playlists 
+    activePage === "library"
+        ? savedPlaylists
+        : activePage === "search"
+        ? searchResults
+        : sortedPlaylists.length > 0
+        ? sortedPlaylists
+        : playlists;
 
     const searchInputRef = useRef(null);
 

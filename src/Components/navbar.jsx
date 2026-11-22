@@ -12,7 +12,7 @@ function Navbar({sortOptions, setSortOptions}) {
           value={sortOptions}
           onChange={(e) => setSortOptions(e.target.value)}
           >
-            <option value="recent">Recently Created</option>
+            <option value="newest">Recently Created</option>
             <option value="oldest">Oldest</option>
             <option value="az">A to Z</option>
             <option value="za">Z to A</option>
