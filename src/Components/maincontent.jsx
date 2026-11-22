@@ -88,7 +88,26 @@ import { useState, useRef, useEffect } from "react";
 function MainContent({ selectedSong, setSelectedSong ,playlists = [], activePage, savedPlaylists, toggleSavePlaylist}){
     const [searchQuery, setSearchQuery] = useState("")
     const [searchResults, setSearchResults] = useState([]) //Create a state to search from directly Mongodb database through Express search API. 
-    
+    const [sortOptions, setSortOptions] = useState("recent")
+
+    const sortedPlaylists = async () => {
+        
+        try {
+            const response = await fetch(
+                `http://localhost:5000/api/playlists/sort/order?order=${encodeURIComponent(sortOptions)}`
+            )
+
+            if(!response.ok){
+                throw new Error("Failed to sort playlists")
+            }
+
+            const result = await response.json();
+            setSortOptions(result.data)
+        } catch(error){
+            console.error("sorting error:",error.message)
+        }
+    };
+
     const searchPlaylists = async () => {
 
         try {
@@ -143,7 +162,10 @@ function MainContent({ selectedSong, setSelectedSong ,playlists = [], activePage
     console.log("ok ", activePage);
 return(
     <div className="main-content">
-        <Navbar/>
+        <Navbar
+            sortOptions={sortOptions}
+            setSortOptions={setSortOptions}
+            />
     {activePage !== "library" &&  (
         <div className="search-container">
             <input 
