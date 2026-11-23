@@ -1,4 +1,4 @@
-const usermodel = require("../model/user.model")
+const usermodel = require("../model/auth.model")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
@@ -110,7 +110,7 @@ const loginuser = async (req, res) => {
         }
 
         const token = jwt.sign(
-            {userid: userexists._id},
+            {userId: userexists._id},
             process.env.JWT_SECRET,
             { expiresIn: "1d"}
         )
@@ -118,6 +118,7 @@ const loginuser = async (req, res) => {
         return res.status(201).json({
             success: true,
             message: "Login Successfully!!",
+            token: token,
             userexists: {
                 id: userexists._id,
                 username: userexists.username,

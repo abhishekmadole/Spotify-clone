@@ -4,10 +4,15 @@ const authenticateUser = (req, res, next) => {
     // Extract the JWT token
     const authHeader = req.headers.authorization;
 
-    console.log("Authorization header: ", !!authHeader)
+//     console.log(
+//     "Bearer format:",
+//     authHeader.startsWith("Bearer ")
+// );
+
+    // console.log("Authorization header: ", !!authHeader)
 
     //Validate the header
-    if(!authHeader || !authHeader.startsWith("bearer")){
+    if(!authHeader || !authHeader.startsWith("Bearer ")){
         return res.status(401).json({
             success: false,
             message: "Access denied. No token provided."
@@ -20,8 +25,10 @@ const authenticateUser = (req, res, next) => {
 try {
     //Verify the JWT
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userexists = decoded;
+    console.log("JWT verification successful:", !!decoded);
+    req.user = decoded;
 }catch(error) {
+     console.log("JWT verification error:", error.message);
     return res.status(401).json({
         success: false,
         message: "Invalid or expired token"
