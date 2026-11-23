@@ -1,8 +1,9 @@
 require("dotenv").config();
 const connectDB = require("./src/db/db");
 const express = require("express");
-const playlistmodel = require("./src/model/note.model");
+// const playlistmodel = require("./src/model/note.model");
 const playlistRoutes = require("./src/routes/playlistmodel.routes")
+const userroutes = require("./src/routes/usermodel.routes")
 const requestlogger = require("./src/middleware/logger.midddle")
 // const validaterequest = require("./src/middleware/inputvalidate.middleware") //ucan use inputvalidate middleware here also and also in routes
 const errorhandling = require("./src/middleware/errorhandling.middleware")
@@ -18,6 +19,7 @@ app.use(cors({                //This allows your local React frontend to access 
 app.use(requestlogger);
 // app.use(validaterequest);
 app.use("/api/playlists", playlistRoutes);
+app.use("/api", userroutes)
 app.use(errorhandling)
 
 const PORT = process.env.PORT || 5000;
